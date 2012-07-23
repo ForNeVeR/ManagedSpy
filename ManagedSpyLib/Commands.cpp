@@ -74,52 +74,68 @@ array<ControlProxy^>^ Desktop::GetTopLevelWindows() {
 
 bool Desktop::IsManagedProcess(DWORD processID) {
 	if (managedProcesses->Contains(processID))
+	{
 		return true;
+	}
 
 	if (processID == 0 || unmanagedProcesses->Contains(processID))
+	{
 		return false;
+	}
 
-	Process^ proc = Process::GetProcessById(processID);
-	
 	// Check for 64-bit processes:
-	auto isWow64 = FALSE;
-	auto result = IsWow64Process(reinterpret_cast<HANDLE>(processID), &isWow64);
-	if (result != 0)
+	if (Environment::Is64BitOperatingSystem && !Environment::Is64BitProcess)
 	{
-		throw gcnew Win32Exception(Marshal::GetLastWin32Error());
-	}
+		// We're running under WoW64. So we can examine only other WoW64 processes.		
+		auto isWow64 = FALSE;
+		auto result = IsWow64Process(reinterpret_cast<HANDLE>(processID), &isWow64);
+		if (result != 0)
+		{
+			throw gcnew Win32Exception(Marshal::GetLastWin32Error());
+		}
 
-	if (isWow64)
-	{
-		// For now we cannot work with x64 processes, so just return false.
-		return false;
-	}
-
-	if (proc == nullptr) {
-		return false;
-	}
-
-	bool ismanaged = false;
-	for(int i = 0;i<proc->Modules->Count;i++) {
-		if(proc->Modules[i]->ModuleName == _T("mscorlib.dll") ||
-			proc->Modules[i]->ModuleName == _T("mscorlib.ni.dll")) {
-				//make sure its version 2.0
-				System::Reflection::AssemblyName^ name = System::Reflection::AssemblyName::GetAssemblyName(
-					proc->Modules[i]->FileName);
-				if (name != nullptr && name->Version->Major == 2) {
-					ismanaged = true;
-				}
-			break;
+		if (!isWow64)
+		{
+			return false;
 		}
 	}
 
-	if (ismanaged) {
+	Process ^process = Process::GetProcessById(processID);
+	if (process == nullptr)
+	{
+		return false;
+	}
+
+	auto isManaged = false;
+	auto modules = process->Modules;
+	for(auto i = 0; i < modules->Count; i++) {
+		auto module = modules[i];
+		auto moduleName = module->ModuleName;
+		if(moduleName == _T("mscorlib.dll") || moduleName == _T("mscorlib.ni.dll")) {
+			// Try to load assembly.
+			try
+			{
+				AssemblyName::GetAssemblyName(module->FileName);
+				isManaged = true;
+				break;
+			}
+			catch (BadImageFormatException ^)
+			{
+				// Oh, not managed.
+			}
+		}
+	}
+
+	if (isManaged)
+	{
 		managedProcesses->Add(processID);
 	}
-	else {
+	else
+	{
 		unmanagedProcesses->Add(processID);
 	}
-	return ismanaged;
+
+	return isManaged;
 }
 
 ControlProxy^ Desktop::GetProxy(System::IntPtr windowHandle) {
