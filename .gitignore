@@ -1,0 +1,11 @@
+# Various user options
+*.suo
+*.user
+*.sdf
+*.opensdf
+*.filters
+
+# Compiler-generated data directories
+*/bin/
+*/obj/
+Debug/
