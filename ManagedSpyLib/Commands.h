@@ -10,6 +10,7 @@
 
 using namespace System;
 using namespace System::IO;
+using namespace System::Runtime::InteropServices;
 using namespace Microsoft::ManagedSpy;
 using namespace System::Collections::Generic;
 using namespace System::Reflection;

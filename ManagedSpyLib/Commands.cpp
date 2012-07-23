@@ -80,6 +80,21 @@ bool Desktop::IsManagedProcess(DWORD processID) {
 		return false;
 
 	Process^ proc = Process::GetProcessById(processID);
+	
+	// Check for 64-bit processes:
+	auto isWow64 = FALSE;
+	auto result = IsWow64Process(reinterpret_cast<HANDLE>(processID), &isWow64);
+	if (result != 0)
+	{
+		throw gcnew Win32Exception(Marshal::GetLastWin32Error());
+	}
+
+	if (isWow64)
+	{
+		// For now we cannot work with x64 processes, so just return false.
+		return false;
+	}
+
 	if (proc == nullptr) {
 		return false;
 	}
