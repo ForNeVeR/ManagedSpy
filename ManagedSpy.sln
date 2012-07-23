@@ -1,9 +1,9 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagedSpy", "ManagedSpy\ManagedSpy.csproj", "{540719F7-67E9-4197-870C-25514179C415}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ManagedSpyLib", "ManagedSpyLib\ManagedSpyLib.vcproj", "{F891D0A7-6FD3-4F28-A601-F371C18D8F3A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ManagedSpyLib", "ManagedSpyLib\ManagedSpyLib.vcxproj", "{F891D0A7-6FD3-4F28-A601-F371C18D8F3A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
