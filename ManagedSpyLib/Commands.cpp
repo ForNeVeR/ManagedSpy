@@ -88,15 +88,23 @@ bool Desktop::IsManagedProcess(DWORD processID) {
 	{
 		// We're running under WoW64. So we can examine only other WoW64 processes.		
 		auto isWow64 = FALSE;
-		auto result = IsWow64Process(reinterpret_cast<HANDLE>(processID), &isWow64);
-		if (result != 0)
+		auto handle = OpenProcess(PROCESS_ALL_ACCESS, FALSE, processID);
+		try
 		{
-			throw gcnew Win32Exception(Marshal::GetLastWin32Error());
-		}
+			auto result = IsWow64Process(handle, &isWow64);
+			if (result == 0)
+			{
+				throw gcnew Win32Exception(Marshal::GetLastWin32Error());
+			}
 
-		if (!isWow64)
+			if (!isWow64)
+			{
+				return false;
+			}
+		}
+		finally
 		{
-			return false;
+			CloseHandle(handle);
 		}
 	}
 
@@ -112,17 +120,18 @@ bool Desktop::IsManagedProcess(DWORD processID) {
 		auto module = modules[i];
 		auto moduleName = module->ModuleName;
 		if(moduleName == _T("mscorlib.dll") || moduleName == _T("mscorlib.ni.dll")) {
-			// Try to load assembly.
-			try
-			{
-				AssemblyName::GetAssemblyName(module->FileName);
-				isManaged = true;
-				break;
-			}
-			catch (BadImageFormatException ^)
-			{
-				// Oh, not managed.
-			}
+			isManaged = true;
+			//// Try to load assembly.
+			//try
+			//{
+			//	AssemblyName::GetAssemblyName(module->FileName);
+			//	isManaged = true;
+			//	break;
+			//}
+			//catch (BadImageFormatException ^)
+			//{
+			//	// Oh, not managed.
+			//}
 		}
 	}
 
