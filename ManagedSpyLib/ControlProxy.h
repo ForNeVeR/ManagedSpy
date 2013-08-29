@@ -233,12 +233,20 @@ namespace ManagedSpy {
 			}
 		}
 
-		Object^ GetValue(String^ propertyName) {
-			PropertyDescriptorCollection^ pdColl = GetProperties();
-			PropertyDescriptor^ pd = pdColl[propertyName];
-			if (pd == nullptr) {
+		Object ^GetValue(String ^propertyName)
+		{
+			auto pdColl = GetProperties();
+			if (pdColl == nullptr)
+			{
 				return nullptr;
 			}
+
+			auto pd = pdColl[propertyName];
+			if (pd == nullptr)
+			{
+				return nullptr;
+			}
+
 			return pd->GetValue(this);
 		}
 
