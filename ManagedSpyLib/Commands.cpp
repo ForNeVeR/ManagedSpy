@@ -311,9 +311,9 @@ void Desktop::UnsubscribeEvent(Control^ target, int eventCode) {
 	}
 }
 
-void Desktop::OnMessage(int nCode, WPARAM wparam, LPARAM lparam) {
-
-	MGD_CWPSTRUCT* msg = (MGD_CWPSTRUCT*)lparam;
+void Desktop::OnMessage(int nCode, WPARAM wparam, LPARAM lparam)
+{
+	auto msg = (CWPSTRUCT*)lparam;
 
 	if (msg != NULL) {
 		if (msg->message == WM_ISMANAGED) {

@@ -14,13 +14,6 @@ using namespace System::Collections::Generic;
 //maximum number of concurrent transactions originating from this process.
 #define MAXTID 999
 
-struct MGD_CWPSTRUCT {
-		System::IntPtr lParam;
-		System::IntPtr wParam;
-		int message;
-		System::IntPtr hwnd;
-	};
-
 namespace Microsoft {
 namespace ManagedSpy {
 
@@ -66,7 +59,7 @@ namespace ManagedSpy {
 		Object^ SendDataMessage(UINT Msg, Object^ parameter);
 
 		static MemoryStore* CreateStore(IntPtr notificationWindow);
-		static MemoryStore* OpenStore(MGD_CWPSTRUCT* message) {
+		static MemoryStore* OpenStore(CWPSTRUCT* message) {
 			if (message== NULL) {
 				return NULL;
 			}
