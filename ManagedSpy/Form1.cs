@@ -1,24 +1,20 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using System.Runtime.InteropServices;
 using System.Diagnostics;
-using Microsoft.ManagedSpy;
+using System.Drawing;
 using System.Threading;
+using System.Windows.Forms;
+using Microsoft.ManagedSpy;
 
 namespace ManagedSpy {
-    /// <summary>
-    /// This is the main window of ManagedSpy.
-    /// Its a fairly simple Form containing a TreeView and TabControl.
-    /// The TreeView contains processes and thier windows
-    /// The TabControl contains properties and events.
-    /// </summary>
-    public partial class Form1 : Form {
-
+	/// <summary>
+	/// This is the main window of ManagedSpy.
+	/// Its a fairly simple Form containing a TreeView and TabControl.
+	/// The TreeView contains processes and thier windows
+	/// The TabControl contains properties and events.
+	/// </summary>
+	public partial class Form1 : Form
+	{
         /// <summary>
         /// Currently selected proxy -- used for event logging.
         /// </summary>
@@ -132,31 +128,35 @@ namespace ManagedSpy {
         private void showWindowToolStripMenuItem_Click(object sender, EventArgs e) {
             FlashCurrentWindow();
         }
-        /// <summary>
-        /// This uses ControlPaint.DrawReversibleFrame to highlight the given window
-        /// </summary>
-        private void FlashCurrentWindow() {
-            ControlProxy proxy = propertyGrid.SelectedObject as ControlProxy;
-            if (proxy != null && proxy.IsManaged && proxy.GetValue("Location") != null) {
 
-                IntPtr handle = proxy.Handle;
-                Point topleft = (Point)proxy.GetValue("Location");
-                if (proxy.Parent != null) {
-                    topleft = (Point)proxy.Parent.PointToScreen(topleft);
-                }
-                Size size = (Size)proxy.GetValue("Size");
-                Rectangle r = new Rectangle(topleft, size);
+		/// <summary>
+		/// This uses ControlPaint.DrawReversibleFrame to highlight the given window
+		/// </summary>
+		private void FlashCurrentWindow()
+		{
+			var proxy = treeWindow.SelectedNode.Tag as ControlProxy;
+			if (proxy != null && proxy.IsManaged && proxy.GetValue("Location") != null)
+			{
+				IntPtr handle = proxy.Handle;
+				Point topleft = (Point)proxy.GetValue("Location");
+				if (proxy.Parent != null)
+				{
+					topleft = (Point)proxy.Parent.PointToScreen(topleft);
+				}
+				Size size = (Size)proxy.GetValue("Size");
+				Rectangle r = new Rectangle(topleft, size);
 
-                for (int i = 1; i <= 7; i++) {
-                    ControlPaint.DrawReversibleFrame(r, Color.Red, FrameStyle.Thick);
-                    Thread.Sleep(100);
-                }
-                Thread.Sleep(250);  //extra delay at the end.
-                ControlPaint.DrawReversibleFrame(r, Color.Red, FrameStyle.Thick);
-            }
-        }
+				for (int i = 1; i <= 7; i++)
+				{
+					ControlPaint.DrawReversibleFrame(r, Color.Red, FrameStyle.Thick);
+					Thread.Sleep(100);
+				}
+				Thread.Sleep(250); //extra delay at the end.
+				ControlPaint.DrawReversibleFrame(r, Color.Red, FrameStyle.Thick);
+			}
+		}
 
-        /// <summary>
+		/// <summary>
         /// Starts event logging
         /// </summary>
         private void StartLogging() {
@@ -226,6 +226,15 @@ namespace ManagedSpy {
             HelpAbout about = new HelpAbout();
             about.ShowDialog();
         }
+
+		private void treeWindow_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+		{
+			if (e.Button == MouseButtons.Right)
+			{
+				treeWindow.SelectedNode = e.Node;
+				treeMenuStrip.Show(treeWindow, e.Location);
+			}
+		}
     }
 
     /// <summary>
