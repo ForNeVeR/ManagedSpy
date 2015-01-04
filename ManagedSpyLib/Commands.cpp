@@ -58,7 +58,7 @@ Object^ Desktop::SendMarshaledMessage(IntPtr hWnd, UINT Msg, Object^ parameter, 
 
 BOOL CALLBACK EnumCallback(HWND handle, LPARAM arg) {
 	Desktop::topLevelWindows->Add(Desktop::GetProxy((System::IntPtr)handle));
-    return TRUE;
+	return TRUE;
 }
 
 array<ControlProxy^>^ Desktop::GetTopLevelWindows() {
@@ -238,7 +238,7 @@ Object^ Desktop::GetEventHandler(Type^ eventHandlerType, Object^ instance) {
 
 		DynamicMethod^ dm = gcnew DynamicMethod(fnName, EventHandler::typeid,
 			params, Desktop::typeid);
-	    
+		
 		ILGenerator^ methodIL = dm->GetILGenerator();
 		methodIL->Emit(OpCodes::Ldarg_0);
 		methodIL->Emit(OpCodes::Ldftn, eventCallback);
@@ -252,7 +252,7 @@ Object^ Desktop::GetEventHandler(Type^ eventHandlerType, Object^ instance) {
 	catch(...) {
 		o = nullptr;
 	}
-    return o;
+	return o;
 }
 
 void Desktop::SubscribeEvent(Control^ target, IntPtr eventWindow, String^ eventName, int eventCode) {
@@ -344,11 +344,13 @@ void Desktop::OnMessage(int nCode, WPARAM wparam, LPARAM lparam)
 							proxy = gcnew ControlProxy(w);
 						}
 					}
-					//do this even if an existing proxy in case it is a leftover.
-					//note that ManagedSpy only supports one client.
-					proxy->SetEventWindow((IntPtr)params[0]);
 
-					store->StoreReturnValue(proxy);
+					if (proxy != nullptr) {
+						//do this even if an existing proxy in case it is a leftover.
+						//note that ManagedSpy only supports one client.
+						proxy->SetEventWindow((IntPtr)params[0]);
+						store->StoreReturnValue(proxy);
+					}
 				}
 			}
 		}
