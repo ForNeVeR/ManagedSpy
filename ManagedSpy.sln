@@ -1,9 +1,18 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagedSpy", "ManagedSpy\ManagedSpy.csproj", "{540719F7-67E9-4197-870C-25514179C415}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ManagedSpyLib", "ManagedSpyLib\ManagedSpyLib.vcxproj", "{F891D0A7-6FD3-4F28-A601-F371C18D8F3A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B0C30441-E66A-49F9-B09A-413310B76249}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,8 +28,8 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{540719F7-67E9-4197-870C-25514179C415}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{540719F7-67E9-4197-870C-25514179C415}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{540719F7-67E9-4197-870C-25514179C415}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{540719F7-67E9-4197-870C-25514179C415}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{540719F7-67E9-4197-870C-25514179C415}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{540719F7-67E9-4197-870C-25514179C415}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{540719F7-67E9-4197-870C-25514179C415}.Debug|Win32.ActiveCfg = Debug|Any CPU
 		{540719F7-67E9-4197-870C-25514179C415}.Debug|x86.ActiveCfg = Debug|x86
 		{540719F7-67E9-4197-870C-25514179C415}.Debug|x86.Build.0 = Debug|x86
