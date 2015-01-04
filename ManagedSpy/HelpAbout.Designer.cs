@@ -42,7 +42,7 @@ namespace ManagedSpy {
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(12, 13);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(327, 65);
+            this.panel1.Size = new System.Drawing.Size(350, 73);
             this.panel1.TabIndex = 4;
             // 
             // pictureBox1
@@ -57,7 +57,7 @@ namespace ManagedSpy {
             // button1
             // 
             this.button1.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.button1.Location = new System.Drawing.Point(249, 5);
+            this.button1.Location = new System.Drawing.Point(270, 5);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 7;
@@ -69,9 +69,9 @@ namespace ManagedSpy {
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(59, 32);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(129, 13);
+            this.label2.Size = new System.Drawing.Size(197, 26);
             this.label2.TabIndex = 6;
-            this.label2.Text = "written by Benjamin Wulfe";
+            this.label2.Text = "original author: Benjamin Wulfe;\r\nversion improved by Friedrich von Never";
             // 
             // label1
             // 
@@ -80,16 +80,18 @@ namespace ManagedSpy {
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(128, 13);
             this.label1.TabIndex = 5;
-            this.label1.Text = "Managed Spy version 1.0";
+            this.label1.Text = "Managed Spy version 1.1";
             // 
             // HelpAbout
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(351, 90);
+            this.ClientSize = new System.Drawing.Size(374, 98);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "HelpAbout";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "About Managed Spy";
