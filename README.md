@@ -13,4 +13,5 @@ Please, see EULA.doc for additional license information.
 
 ## Platform support
 
-Currently, only 32-bit proccesses are supported (on both 32-bit and 64-bit Windows editions).
+Both 32-bit and 64-bit proccesses are supported, but 32-bit ManangedSpy can only inspect 32-bit process
+, 64-bit ManagedSpy can only inspect 64-bit process.
