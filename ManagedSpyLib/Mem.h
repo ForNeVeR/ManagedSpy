@@ -18,7 +18,7 @@ namespace Microsoft {
 namespace ManagedSpy {
 
 	struct SharedData {
-		SIZE_T Size;
+		unsigned int Size;
 		BYTE Data[1];
 	};
 

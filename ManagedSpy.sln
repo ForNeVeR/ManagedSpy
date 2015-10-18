@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagedSpy", "ManagedSpy\ManagedSpy.csproj", "{540719F7-67E9-4197-870C-25514179C415}"
 EndProject
@@ -16,16 +16,26 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{540719F7-67E9-4197-870C-25514179C415}.Debug|x64.ActiveCfg = Debug|x64
+		{540719F7-67E9-4197-870C-25514179C415}.Debug|x64.Build.0 = Debug|x64
 		{540719F7-67E9-4197-870C-25514179C415}.Debug|x86.ActiveCfg = Debug|x86
 		{540719F7-67E9-4197-870C-25514179C415}.Debug|x86.Build.0 = Debug|x86
+		{540719F7-67E9-4197-870C-25514179C415}.Release|x64.ActiveCfg = Release|x64
+		{540719F7-67E9-4197-870C-25514179C415}.Release|x64.Build.0 = Release|x64
 		{540719F7-67E9-4197-870C-25514179C415}.Release|x86.ActiveCfg = Release|x86
 		{540719F7-67E9-4197-870C-25514179C415}.Release|x86.Build.0 = Release|x86
+		{F891D0A7-6FD3-4F28-A601-F371C18D8F3A}.Debug|x64.ActiveCfg = Debug|x64
+		{F891D0A7-6FD3-4F28-A601-F371C18D8F3A}.Debug|x64.Build.0 = Debug|x64
 		{F891D0A7-6FD3-4F28-A601-F371C18D8F3A}.Debug|x86.ActiveCfg = Debug|Win32
 		{F891D0A7-6FD3-4F28-A601-F371C18D8F3A}.Debug|x86.Build.0 = Debug|Win32
+		{F891D0A7-6FD3-4F28-A601-F371C18D8F3A}.Release|x64.ActiveCfg = Release|x64
+		{F891D0A7-6FD3-4F28-A601-F371C18D8F3A}.Release|x64.Build.0 = Release|x64
 		{F891D0A7-6FD3-4F28-A601-F371C18D8F3A}.Release|x86.ActiveCfg = Release|Win32
 		{F891D0A7-6FD3-4F28-A601-F371C18D8F3A}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection

@@ -17,7 +17,7 @@ using namespace System::Reflection;
 using namespace System::Reflection::Emit;
 
 __declspec( dllexport )
-int __stdcall MessageHookProc(int nCode, WPARAM wparam, LPARAM lparam);
+void * __stdcall MessageHookProc(int nCode, WPARAM wparam, LPARAM lparam);
 
 BOOL CALLBACK EnumCallback(HWND handle, LPARAM arg);
 
