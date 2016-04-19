@@ -4,10 +4,12 @@
 *.sdf
 *.opensdf
 *.filters
+*.VC.*db
 
 # Compiler-generated data directories
 */bin/
 */obj/
 Debug/
+Release/
 /_ReSharper.ManagedSpy/
 /ipch/*
