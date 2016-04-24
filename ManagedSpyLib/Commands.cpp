@@ -193,8 +193,8 @@ void EventRegister::OnEventFired(Object^ sender, EventArgs^ args) {
 //-----------------------------------------------------------------------------
 //Spied Process functions follow
 //-----------------------------------------------------------------------------
-__declspec( dllexport ) 
-int __stdcall MessageHookProc(int nCode, WPARAM wparam, LPARAM lparam) {
+__declspec(dllexport) 
+LRESULT CALLBACK MessageHookProc(int nCode, WPARAM wparam, LPARAM lparam) {
 	try {
 		if (nCode == HC_ACTION) {
 			Microsoft::ManagedSpy::Desktop::OnMessage(nCode, wparam, lparam);
@@ -202,8 +202,7 @@ int __stdcall MessageHookProc(int nCode, WPARAM wparam, LPARAM lparam) {
 	}
 	catch(...) {}
 
-	return CallNextHookEx(_messageHookHandle,
-		nCode, wparam, lparam);
+	return CallNextHookEx(_messageHookHandle, nCode, wparam, lparam);
 }
 
 Object^ Desktop::GetEventHandler(Type^ eventHandlerType, Object^ instance) {

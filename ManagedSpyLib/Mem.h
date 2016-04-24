@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 #include "atlfile.h"
 #include "atlstr.h"
 #include "atlcoll.h"
@@ -18,7 +20,7 @@ namespace Microsoft {
 namespace ManagedSpy {
 
 	struct SharedData {
-		SIZE_T Size;
+		std::uint32_t Size;
 		BYTE Data[1];
 	};
 

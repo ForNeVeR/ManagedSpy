@@ -16,8 +16,8 @@ using namespace System::Collections::Generic;
 using namespace System::Reflection;
 using namespace System::Reflection::Emit;
 
-__declspec( dllexport )
-int __stdcall MessageHookProc(int nCode, WPARAM wparam, LPARAM lparam);
+__declspec(dllexport)
+LRESULT CALLBACK MessageHookProc(int nCode, WPARAM wparam, LPARAM lparam);
 
 BOOL CALLBACK EnumCallback(HWND handle, LPARAM arg);
 
