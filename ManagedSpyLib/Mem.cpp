@@ -107,7 +107,7 @@ bool MemoryStore::StoreData(CAtlFileMapping<SharedData>& memory, Object^ data, L
 	if (((SharedData*)memory) == NULL) {
 		return false;
 	}
-	((SharedData*)memory)->Size = (unsigned int)stream->Length;
+	((SharedData*)memory)->Size = static_cast<std::uint32_t>(stream->Length);
 	BYTE* pdata = (BYTE*)((SharedData*)memory)->Data;
 
 	array<unsigned char>^ streamdata = stream->GetBuffer();
