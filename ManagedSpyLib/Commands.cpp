@@ -121,6 +121,7 @@ bool Desktop::IsManagedProcess(DWORD processID) {
 		auto moduleName = module->ModuleName;
 		if(moduleName == _T("mscorlib.dll") || moduleName == _T("mscorlib.ni.dll")) {
 			isManaged = true;
+			break;
 			//// Try to load assembly.
 			//try
 			//{
