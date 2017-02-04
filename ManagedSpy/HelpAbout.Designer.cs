@@ -69,18 +69,19 @@ namespace ManagedSpy {
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(59, 32);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(197, 26);
+            this.label2.Size = new System.Drawing.Size(276, 26);
             this.label2.TabIndex = 6;
-            this.label2.Text = "original author: Benjamin Wulfe;\r\nversion improved by Friedrich von Never";
+            this.label2.Text = "original author: Benjamin Wulfe;\r\nversion improved by Friedrich von Never and con" +
+    "tributors";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(58, 15);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(128, 13);
+            this.label1.Size = new System.Drawing.Size(137, 13);
             this.label1.TabIndex = 5;
-            this.label1.Text = "Managed Spy version 1.1";
+            this.label1.Text = "Managed Spy version 1.2.1";
             // 
             // HelpAbout
             // 
