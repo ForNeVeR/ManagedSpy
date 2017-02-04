@@ -181,6 +181,7 @@
     <ClCompile Include="ControlProxy.cpp" />
     <ClCompile Include="EventTargetWindow.cpp" />
     <ClCompile Include="Mem.cpp" />
+    <ClCompile Include="MessageFilters.cpp" />
     <ClCompile Include="PropertyDescriptorProxy.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -205,6 +206,7 @@
     </ClInclude>
     <ClInclude Include="Mem.h" />
     <ClInclude Include="Messages.h" />
+    <ClInclude Include="MessageFilters.hpp" />
     <ClInclude Include="PropertyDescriptorProxy.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Stdafx.h" />

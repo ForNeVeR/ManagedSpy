@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
-using System.Runtime.InteropServices;
 using Microsoft.ManagedSpy;
 
 namespace ManagedSpy {
@@ -21,64 +20,9 @@ namespace ManagedSpy {
 		/// </summary>
 		private ControlProxy currentProxy = null;
 		EventFilterDialog dialog = new EventFilterDialog();
-        /// <summary>
-        /// Modified by uian2000@gmail.com
-        /// Import ChangeWindowMessageFilter/RegisterWindowMessage to allow message exchange between processes with different priviliage.
-        /// </summary>
-        [DllImport("user32")]
-        public static extern bool ChangeWindowMessageFilter(uint msg, int flag);
-        [DllImport("user32")]
-        public static extern uint RegisterWindowMessage(string lpString);
 
         public MainForm() {
 			InitializeComponent();
-            //// Modify by uian2000@gmail.com
-            // ChangeWindowMessageFilter to allow message exchange between processes with different priviliage.
-            Version ver = System.Environment.OSVersion.Version;
-            if (ver.Major >= 6) // Win vista upper
-            {
-                // RegisterWindowMessage block is copy & modified from Messages.h in ManagedSpyLib project.
-                const int MSGFLT_ADD = 1;
-                //Spying sends: Create a controlproxy and send it back
-                uint WM_GETPROXY = RegisterWindowMessage("MSFT_ManagedSpy_GETPROXY");
-                //Spying sends: Is the window managed?
-                uint WM_ISMANAGED = RegisterWindowMessage("MSFT_ManagedSpy_ISMANAGED");
-                //Spying sends: release your reference to shared memory
-                uint WM_RELEASEMEM = RegisterWindowMessage("MSFT_ManagedSpy_RELEASEMEMORY");
-                //Spying sends: set a value on a control
-                uint WM_SETMGDPROPERTY = RegisterWindowMessage("MSFT_ManagedSpy_SETMGDPROPERTY");
-                //Spying sends: get a value on a control
-                uint WM_GETMGDPROPERTY = RegisterWindowMessage("MSFT_ManagedSpy_GETMGDPROPERTY");
-                //Spying sends: reset a value on a control
-                uint WM_RESETMGDPROPERTY = RegisterWindowMessage("MSFT_ManagedSpy_RESETMGDPROPERTY");
-                //Spying sends: subscribe to an event (ie, send back WM_EVENTFIRED) if this event is raised.
-                //note:  there is no guarantee of event ordering, so you may be called back after other user
-                //code has handled the event.
-                uint WM_SUBSCRIBEEVENT = RegisterWindowMessage("MSFT_ManagedSpy_SUBSCRIBEEVENT");
-                //Spying sends: stop sending event messages.
-                uint WM_UNSUBSCRIBEEVENT = RegisterWindowMessage("MSFT_ManagedSpy_UNSUBSCRIBEEVENT");
-                //Spied sends: an event was fired.
-                uint WM_EVENTFIRED = RegisterWindowMessage("MSFT_ManagedSpy_EVENTFIRED");
-                //Spied sends: a control was destroyed.
-                uint WM_WINDOWDESTROYED = RegisterWindowMessage("MSFT_ManagedSpy_WINDOWDESTROYED");
-                //Spied sends: a control has changed its handle.
-                uint WM_HANDLECHANGED = RegisterWindowMessage("MSFT_ManagedSpy_HANDLECHANGED");
-
-                // Allow user defined messages go through WindowMessageFilter
-                ChangeWindowMessageFilter(WM_GETPROXY, MSGFLT_ADD);
-                ChangeWindowMessageFilter(WM_ISMANAGED, MSGFLT_ADD);
-                ChangeWindowMessageFilter(WM_RELEASEMEM, MSGFLT_ADD);
-                ChangeWindowMessageFilter(WM_SETMGDPROPERTY, MSGFLT_ADD);
-                ChangeWindowMessageFilter(WM_GETMGDPROPERTY, MSGFLT_ADD);
-                ChangeWindowMessageFilter(WM_RESETMGDPROPERTY, MSGFLT_ADD);
-                ChangeWindowMessageFilter(WM_SUBSCRIBEEVENT, MSGFLT_ADD);
-                ChangeWindowMessageFilter(WM_SUBSCRIBEEVENT, MSGFLT_ADD);
-                ChangeWindowMessageFilter(WM_UNSUBSCRIBEEVENT, MSGFLT_ADD);
-                ChangeWindowMessageFilter(WM_EVENTFIRED, MSGFLT_ADD);
-                ChangeWindowMessageFilter(WM_WINDOWDESTROYED, MSGFLT_ADD);
-                ChangeWindowMessageFilter(WM_HANDLECHANGED, MSGFLT_ADD);
-            }
-            //// Modify End. uian2000@gmail.com
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -112,16 +56,16 @@ namespace ManagedSpy {
 							if (procnode == null) {
 								procnode = treeWindow.Nodes.Add(proc.Id.ToString(),
 									proc.ProcessName +
-									"  " + proc.MainWindowTitle + 
+									"  " + proc.MainWindowTitle +
 									" [" + proc.Id.ToString() + "]");
 								procnode.Tag = proc;
 							}
 							string name = String.IsNullOrEmpty(cproxy.GetComponentName()) ?
 								"<noname>" : cproxy.GetComponentName();
-							TreeNode node = procnode.Nodes.Add(cproxy.Handle.ToString(), 
-								name + 
+							TreeNode node = procnode.Nodes.Add(cproxy.Handle.ToString(),
+								name +
 								"     [" +
-								cproxy.GetClassName() + 
+								cproxy.GetClassName() +
 								"]");
 							node.Tag = cproxy;
 						}
