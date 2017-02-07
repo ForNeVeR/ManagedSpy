@@ -24,7 +24,7 @@ function exec($command) {
 
 function prepare($platform) {
     exec $msbuild /p:Configuration=Release /p:Platform=$platform '/t:Clean;Rebuild'
-    Compress-Archive "$PSScriptRoot/../ManagedSpy/bin/$platform/Release/*" "$ReleaseDir/ManagedSpy_$($platform)_$Version.zip"
+    Compress-Archive "$PSScriptRoot/../bin/$platform/Release/*" "$ReleaseDir/ManagedSpy_$($platform)_$Version.zip"
 }
 
 if (-not (Test-Path -PathType Container $ReleaseDir)) {
