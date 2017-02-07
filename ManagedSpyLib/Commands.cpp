@@ -10,8 +10,8 @@ static HHOOK _messageHookHandle = NULL;
 //-----------------------------------------------------------------------------
 void Desktop::EnableHook(IntPtr windowHandle) {
 
-	HINSTANCE hinstDLL; 
-	hinstDLL = LoadLibrary((LPCTSTR) _T("ManagedSpyLib.dll")); 
+	HINSTANCE hinstDLL;
+	hinstDLL = LoadLibrary((LPCTSTR) _T("ManagedSpyLib.dll"));
 
 	DisableHook();
 	DWORD tid = GetWindowThreadProcessId((HWND)windowHandle.ToPointer(), NULL);
@@ -72,11 +72,12 @@ array<ControlProxy^>^ Desktop::GetTopLevelWindows() {
 	return winarr;
 }
 
-bool Desktop::IsProcessInteractive(DWORD processID) {
+bool Desktop::IsProcessAccessible(DWORD processID)
+{
 	// Check for 64-bit processes:
 	if (Environment::Is64BitOperatingSystem)
 	{
-		// We're running under 64Bit OS. So we should examine other processes of same arch x86/x64.
+		// We're running on 64-bit OS. So we should check whether other processes have the same bitness as ours.
 		auto isWow64 = FALSE;
 		auto handle = OpenProcess(PROCESS_ALL_ACCESS, FALSE, processID);
 		try
@@ -101,11 +102,7 @@ bool Desktop::IsProcessInteractive(DWORD processID) {
 	}
 
 	Process ^process = Process::GetProcessById(processID);
-	if (process == nullptr)
-	{
-		return false;
-	}
-	return true;
+    return process != nullptr;
 }
 
 bool Desktop::IsManagedProcess(DWORD processID) {
@@ -162,7 +159,7 @@ ControlProxy^ Desktop::GetProxy(System::IntPtr windowHandle) {
 	if (proxy == nullptr) {
 		DWORD procid = 0;
 		GetWindowThreadProcessId((HWND)windowHandle.ToPointer(), &procid);
-		if (IsProcessInteractive(procid) && IsManagedProcess(procid)) {
+		if (IsProcessAccessible(procid) && IsManagedProcess(procid)) {
 			List<Object^>^ params = gcnew List<Object^>();
 			params->Add(Desktop::eventWindow->Handle);
 			proxy = (ControlProxy^) SendMarshaledMessage(windowHandle, WM_GETPROXY, params);
@@ -200,7 +197,7 @@ void EventRegister::OnEventFired(Object^ sender, EventArgs^ args) {
 //-----------------------------------------------------------------------------
 //Spied Process functions follow
 //-----------------------------------------------------------------------------
-__declspec(dllexport) 
+__declspec(dllexport)
 LRESULT CALLBACK MessageHookProc(int nCode, WPARAM wparam, LPARAM lparam) {
 	try {
 		if (nCode == HC_ACTION) {
@@ -244,7 +241,7 @@ Object^ Desktop::GetEventHandler(Type^ eventHandlerType, Object^ instance) {
 
 		DynamicMethod^ dm = gcnew DynamicMethod(fnName, EventHandler::typeid,
 			params, Desktop::typeid);
-		
+
 		ILGenerator^ methodIL = dm->GetILGenerator();
 		methodIL->Emit(OpCodes::Ldarg_0);
 		methodIL->Emit(OpCodes::Ldftn, eventCallback);
@@ -269,7 +266,7 @@ void Desktop::SubscribeEvent(Control^ target, IntPtr eventWindow, String^ eventN
 	eventreg->eventInfo = target->GetType()->GetEvent(eventName);
 
 	//if everything is valid, add it to our list and subscribe
-	if (eventreg->sourceWindow != nullptr && 
+	if (eventreg->sourceWindow != nullptr &&
 		eventreg->targetEventReceiver != IntPtr::Zero &&
 		eventreg->eventInfo != nullptr ) {
 			Dictionary<int, EventRegister^>^ windowEventList;

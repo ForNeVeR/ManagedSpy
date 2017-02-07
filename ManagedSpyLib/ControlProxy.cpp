@@ -123,7 +123,7 @@ bool ControlProxy::IsManaged::get() {
 		return false;
 	}
 
-	if (!Desktop::IsProcessInteractive(proc->Id) || !Desktop::IsManagedProcess(proc->Id)) {
+	if (!Desktop::IsProcessAccessible(proc->Id) || !Desktop::IsManagedProcess(proc->Id)) {
 		return false;
 	}
 
@@ -157,7 +157,7 @@ array<ControlProxy^>^ ControlProxy::Children::get() {
 	Desktop::childWindows->Clear();
 	EnumChildWindows((HWND)this->Handle.ToPointer(), (WNDENUMPROC)EnumChildrenCallback,
 		(LPARAM)this->Handle.ToPointer());
-	
+
 	array<ControlProxy^>^ winarr = gcnew array<ControlProxy^>(Desktop::childWindows->Count);
 	Desktop::childWindows->CopyTo(winarr);
 	Desktop::childWindows->Clear();
@@ -219,7 +219,7 @@ void ControlProxy::UnsubscribeEvent(EventDescriptor^ ed) {
 		if (ind >=0) {
 			List<Object^>^ params = gcnew List<Object^>();
 			params->Add(ind);
-			
+
 			Desktop::SendMarshaledMessage(Handle, WM_UNSUBSCRIBEEVENT, params);
 		}
 	}
