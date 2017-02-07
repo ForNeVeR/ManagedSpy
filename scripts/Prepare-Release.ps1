@@ -1,7 +1,7 @@
 param (
     $Solution = "$PSScriptRoot/../ManagedSpy.sln",
     $ReleaseDir = "$PSScriptRoot/../releases",
-    $Version = '1.2.1',
+    $Version = '1.2.2',
     $msbuild = 'msbuild'
 )
 
