@@ -72,21 +72,11 @@ array<ControlProxy^>^ Desktop::GetTopLevelWindows() {
 	return winarr;
 }
 
-bool Desktop::IsManagedProcess(DWORD processID) {
-	if (managedProcesses->Contains(processID))
-	{
-		return true;
-	}
-
-	if (processID == 0 || unmanagedProcesses->Contains(processID))
-	{
-		return false;
-	}
-
+bool Desktop::IsProcessInteractive(DWORD processID) {
 	// Check for 64-bit processes:
-	if (Environment::Is64BitOperatingSystem && !Environment::Is64BitProcess)
+	if (Environment::Is64BitOperatingSystem)
 	{
-		// We're running under WoW64. So we can examine only other WoW64 processes.		
+		// We're running under 64Bit OS. So we should examine other processes of same arch x86/x64.
 		auto isWow64 = FALSE;
 		auto handle = OpenProcess(PROCESS_ALL_ACCESS, FALSE, processID);
 		try
@@ -94,11 +84,13 @@ bool Desktop::IsManagedProcess(DWORD processID) {
 			auto result = IsWow64Process(handle, &isWow64);
 			if (result == 0)
 			{
-				throw gcnew Win32Exception(Marshal::GetLastWin32Error());
+				// Open process error, we can't handle this process.
+				return false;
 			}
 
-			if (!isWow64)
+			if (!isWow64 && !Environment::Is64BitProcess)
 			{
+				// wrong arch, we can't handle this process.
 				return false;
 			}
 		}
@@ -113,7 +105,21 @@ bool Desktop::IsManagedProcess(DWORD processID) {
 	{
 		return false;
 	}
+	return true;
+}
 
+bool Desktop::IsManagedProcess(DWORD processID) {
+	if (managedProcesses->Contains(processID))
+	{
+		return true;
+	}
+
+	if (processID == 0 || unmanagedProcesses->Contains(processID))
+	{
+		return false;
+	}
+
+	Process ^process = Process::GetProcessById(processID);
 	auto isManaged = false;
 	auto modules = process->Modules;
 	for(auto i = 0; i < modules->Count; i++) {
@@ -156,7 +162,7 @@ ControlProxy^ Desktop::GetProxy(System::IntPtr windowHandle) {
 	if (proxy == nullptr) {
 		DWORD procid = 0;
 		GetWindowThreadProcessId((HWND)windowHandle.ToPointer(), &procid);
-		if (IsManagedProcess(procid)) {
+		if (IsProcessInteractive(procid) && IsManagedProcess(procid)) {
 			List<Object^>^ params = gcnew List<Object^>();
 			params->Add(Desktop::eventWindow->Handle);
 			proxy = (ControlProxy^) SendMarshaledMessage(windowHandle, WM_GETPROXY, params);

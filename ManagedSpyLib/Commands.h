@@ -65,7 +65,8 @@ namespace ManagedSpy {
 		static void UnsubscribeEvent(Control^ w, int eventCode);
 		static Object^ GetEventHandler(Type^ eventHandlerType, Object^ instance);
 
-		static bool IsManagedProcess(DWORD procid);
+		static bool IsProcessInteractive(DWORD processID);
+		static bool IsManagedProcess(DWORD processID);
 		static Object^ SendMarshaledMessage(IntPtr hWnd, UINT Msg, Object^ parameter) {
 			return SendMarshaledMessage(hWnd, Msg, parameter, true);
 		}

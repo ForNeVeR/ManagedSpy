@@ -123,7 +123,7 @@ bool ControlProxy::IsManaged::get() {
 		return false;
 	}
 
-	if (!Desktop::IsManagedProcess(proc->Id)) {
+	if (!Desktop::IsProcessInteractive(proc->Id) || !Desktop::IsManagedProcess(proc->Id)) {
 		return false;
 	}
 
