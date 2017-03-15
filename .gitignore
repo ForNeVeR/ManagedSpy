@@ -1,3 +1,4 @@
+/.vs/
 /releases/
 
 # Various user options
@@ -11,7 +12,5 @@
 # Compiler-generated data directories
 */bin/
 */obj/
-Debug/
-Release/
 /_ReSharper.ManagedSpy/
 /ipch/*
