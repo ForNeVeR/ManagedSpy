@@ -27,8 +27,9 @@ License
 
 Original source code obtained from http://msdn.microsoft.com/en-us/magazine/cc163617.aspx
 
-Please, see EULA.doc for additional license information.
+Please, see [EULA][eula] for additional license information.
 
+[eula]: EULA.doc
 [prepare-release]: scripts/Prepare-Release.ps1
 
 [releases]: https://github.com/ForNeVeR/ManagedSpy/releases
