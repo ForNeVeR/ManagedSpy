@@ -105,6 +105,20 @@ bool Desktop::IsProcessAccessible(DWORD processID)
     return process != nullptr;
 }
 
+static ProcessModuleCollection ^TryGetProcessModules(DWORD processId)
+{
+    auto process = Process::GetProcessById(processId);
+    try
+    {
+        return process->Modules;
+    }
+    catch (Win32Exception ^)
+    {
+        // Access is denied; this is okay and we shouldn't touch such process.
+        return gcnew ProcessModuleCollection(gcnew array<ProcessModule^>(0));
+    }
+}
+
 bool Desktop::IsManagedProcess(DWORD processID) {
     if (managedProcesses->Contains(processID))
     {
@@ -116,9 +130,8 @@ bool Desktop::IsManagedProcess(DWORD processID) {
         return false;
     }
 
-    Process ^process = Process::GetProcessById(processID);
     auto isManaged = false;
-    auto modules = process->Modules;
+    auto modules = TryGetProcessModules(processID);
     for(auto i = 0; i < modules->Count; i++) {
         auto module = modules[i];
         auto moduleName = module->ModuleName;
