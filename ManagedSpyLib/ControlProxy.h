@@ -42,29 +42,29 @@ namespace ManagedSpy {
 		void OnHandleDestroyed(Object^ sender, EventArgs^ args);
 
 		//ICustomTypeDescriptor overrides
-		virtual System::ComponentModel::AttributeCollection^ GetAttributes() 
+		virtual System::ComponentModel::AttributeCollection^ GetAttributes()
 			= System::ComponentModel::ICustomTypeDescriptor::GetAttributes {
 				if (ComponentType != nullptr) {
 					return TypeDescriptor::GetAttributes(ComponentType);
 				}
 				return AttributeCollection::Empty;
 		}
-		virtual String^ GetClassName() 
+		virtual String^ GetClassName()
 			= System::ComponentModel::ICustomTypeDescriptor::GetClassName {
 			return className;
 		}
-		virtual String^ GetComponentName() 
+		virtual String^ GetComponentName()
 			= System::ComponentModel::ICustomTypeDescriptor::GetComponentName {
 			return componentName;
 		}
-		virtual TypeConverter^ GetConverter() 
+		virtual TypeConverter^ GetConverter()
 			= System::ComponentModel::ICustomTypeDescriptor::GetConverter {
 				if (ComponentType != nullptr) {
 					return TypeDescriptor::GetConverter(ComponentType);
 				}
 				return nullptr;
 		}
-		virtual EventDescriptor^ GetDefaultEvent() 
+		virtual EventDescriptor^ GetDefaultEvent()
 			= System::ComponentModel::ICustomTypeDescriptor::GetDefaultEvent {
 				if (ComponentType != nullptr) {
 					return TypeDescriptor::GetDefaultEvent(ComponentType);
@@ -119,7 +119,7 @@ namespace ManagedSpy {
 					if (ComponentType != nullptr) {
 						PropertyDescriptorCollection^ pdcollorig = TypeDescriptor::GetProperties(ComponentType);
 						PropertyDescriptorCollection^ pdcollManagedSpy = TypeDescriptor::GetProperties(ControlProxy::typeid);
-						
+
 						array<PropertyDescriptor^>^ pdcollnew = gcnew array<PropertyDescriptor^>(pdcollorig->Count + pdcollManagedSpy->Count);
 						int i =0;
 						for(;i < pdcollorig->Count; i++) {
@@ -190,12 +190,12 @@ namespace ManagedSpy {
 
 		[Category("ManagedSpy Properties")]
 		property bool IsManaged {
-			bool get(); 
+			bool get();
 		}
 
 		[Category("ManagedSpy Properties")]
 		property Type^ ComponentType {
-			Type^ get(); 
+			Type^ get();
 		}
 
 		event ControlProxyEventHandler^ EventFired;
@@ -279,9 +279,7 @@ namespace ManagedSpy {
 
 		static ControlProxy^ FromHandle(System::IntPtr windowHandle);
 
-		static property array<ControlProxy^>^ TopLevelWindows {
-			array<ControlProxy^>^ get();
-		}
+        static array<ControlProxy^>^ GetTopLevelWindows(Nullable<int32_t> pid);
 
 	private:
 		String^ className;
@@ -305,15 +303,15 @@ namespace ManagedSpy {
 		[NonSerialized]
 		IntPtr oldHandle;
 
-        /// <devdoc> 
-        ///     This function takes a member descriptor and an attribute and determines whether 
-        ///     the member satisfies the particular attribute.  This either means that the member 
-        ///     contains the attribute or the member does not contain the attribute and the default 
-        ///     for the attribute matches the passed in attribute. 
-        /// </devdoc> 
-        bool ShouldHideMember(MemberDescriptor^ member, Attribute^ attribute) 
+        /// <devdoc>
+        ///     This function takes a member descriptor and an attribute and determines whether
+        ///     the member satisfies the particular attribute.  This either means that the member
+        ///     contains the attribute or the member does not contain the attribute and the default
+        ///     for the attribute matches the passed in attribute.
+        /// </devdoc>
+        bool ShouldHideMember(MemberDescriptor^ member, Attribute^ attribute)
         {
-            if (member == nullptr || attribute == nullptr) 
+            if (member == nullptr || attribute == nullptr)
             {
                 return true;
             }
@@ -323,7 +321,7 @@ namespace ManagedSpy {
             {
                 return !attribute->IsDefaultAttribute();
             }
-            else 
+            else
             {
                 return !(attribute->Match(memberAttribute));
             }

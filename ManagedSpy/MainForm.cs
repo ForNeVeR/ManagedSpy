@@ -37,13 +37,28 @@ namespace ManagedSpy {
 			RefreshWindows();
 		}
 
+        private static int? GetPidForFiltering()
+        {
+            var args = Environment.GetCommandLineArgs();
+            if (args.Length > 1)
+            {
+                if (int.TryParse(args[1], out var pid))
+                    return pid;
+
+                return null;
+            }
+
+            return null;
+        }
+
 		/// <summary>
 		/// This rebuilds the window hierarchy
 		/// </summary>
 		private void RefreshWindows() {
 			this.treeWindow.BeginUpdate();
 			this.treeWindow.Nodes.Clear();
-			ControlProxy[] topWindows = Microsoft.ManagedSpy.ControlProxy.TopLevelWindows;
+            var pidFilter = GetPidForFiltering();
+			ControlProxy[] topWindows = ControlProxy.GetTopLevelWindows(pidFilter);
 			if (topWindows != null && topWindows.Length > 0) {
 				foreach (ControlProxy cproxy in topWindows) {
 					TreeNode procnode;

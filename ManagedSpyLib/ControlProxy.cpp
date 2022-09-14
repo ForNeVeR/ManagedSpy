@@ -151,8 +151,9 @@ ControlProxy^ ControlProxy::FromHandle(System::IntPtr windowHandle){
     return Desktop::GetProxy(windowHandle);
 }
 
-array<ControlProxy^>^ ControlProxy::TopLevelWindows::get() {
-    return Desktop::GetTopLevelWindows();
+array<ControlProxy^>^ ControlProxy::GetTopLevelWindows(Nullable<int32_t> pid)
+{
+    return Desktop::GetTopLevelWindows(pid);
 }
 
 array<ControlProxy^>^ ControlProxy::Children::get() {

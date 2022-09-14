@@ -74,7 +74,7 @@ namespace ManagedSpy {
         static void OnMessage(int nCode, WPARAM wparam, LPARAM lparam);
 
         static ControlProxy^ GetProxy(System::IntPtr windowHandle);
-        static array<ControlProxy^>^ GetTopLevelWindows();
+        static array<ControlProxy^>^ GetTopLevelWindows(Nullable<int32_t> pid);
     };
 }
 }

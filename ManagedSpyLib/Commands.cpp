@@ -56,15 +56,21 @@ Object^ Desktop::SendMarshaledMessage(IntPtr hWnd, UINT Msg, Object^ parameter, 
     return retval;
 }
 
+Nullable<int32_t> processIdForFilter;
 BOOL CALLBACK EnumCallback(HWND handle, LPARAM arg) {
-    Desktop::topLevelWindows->Add(Desktop::GetProxy((System::IntPtr)handle));
+    auto proxy = Desktop::GetProxy((System::IntPtr)handle);
+    if (proxy != nullptr)
+        Desktop::topLevelWindows->Add(proxy);
     return TRUE;
 }
 
-array<ControlProxy^>^ Desktop::GetTopLevelWindows() {
+array<ControlProxy^>^ Desktop::GetTopLevelWindows(Nullable<int32_t> pid)
+{
     _ASSERTE(topLevelWindows->Count==0);
 
+    processIdForFilter = pid;
     EnumWindows((WNDENUMPROC)EnumCallback, (LPARAM)0);
+    processIdForFilter = Nullable<int32_t>();
 
     array<ControlProxy^>^ winarr = gcnew array<ControlProxy^>(topLevelWindows->Count);
     topLevelWindows->CopyTo(winarr);
@@ -176,6 +182,9 @@ ControlProxy ^Desktop::GetProxy(IntPtr windowHandle)
     {
         DWORD procid = 0;
         GetWindowThreadProcessId((HWND)windowHandle.ToPointer(), &procid);
+
+        if (processIdForFilter.HasValue && procid != processIdForFilter.Value) return nullptr;
+
         if (IsProcessAccessible(procid) && IsManagedProcess(procid))
         {
             List<Object^> ^params = gcnew List<Object^>();
